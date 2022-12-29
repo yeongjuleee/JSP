@@ -8,7 +8,18 @@
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <meta charset="UTF-8">
-<title>Book</title>
+<title>도서 상세 정보</title>
+
+<script type="text/javascript">
+	function addToCart() { // 장바구니 상품 추가 함수
+		if (confirm("상품을 장바구니에 추가하시겠습니까?")) {
+			document.addForm.submit(); // addForm 만들기
+		} else {
+			document.addForm.reset();
+		}
+	}
+</script>
+
 </head>
 <body>
 	<jsp:include page="menu.jsp" />
@@ -27,7 +38,7 @@
 		<div class="col">
 			<div class="col-md-5">
 				<img src="${pageContext.request.contextPath}/resources/images/<%=book.getFilename()%>"
-				stlye="max-width: 100%" />
+				style="max-width: 100%" />
 			</div>
 			<div class="col-md-12">
 				<h3><%=book.getName() %></h3>
@@ -41,8 +52,13 @@
 	            <p><b>재고 : </b><%=book.getUnitsInStock()%></p>
 	            <p><b>상태 : </b><%=book.getCondition()%></p>
               	<h4><%=book.getUnitPrice() %>원</h4>
-              	<p><a href = "#" class="btn btn-info">상품 주문 &raquo;</a>
-              	<a href="./bookstore.jsp" class="btn btn-secondary"> 상품 목록 &raquo;</a></p>          
+				<p>
+					<!-- 희윤이가 이 방법은 좋지 않대. 나중에 스스로 수정해야만 한대 -->
+					<form name="addForm" action="./addCart.jsp?id=<%=book.getBookId() %>" method="post">
+						<a href="#" class="btn btn-info" onclick="addToCart()">상품 주문 &raquo;</a>
+						<a href="./cart.jsp" class="btn btn-warning">장바구니 &raquo;</a>
+						<a href="./bookstore.jsp" class="btn btn-secondary">상품 목록 &raquo;</a>
+					</form>
 				<hr>
 			</div>
 		</div>
