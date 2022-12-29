@@ -22,7 +22,7 @@ public class ProductRepository {
 		phone.setCondition("New");
 		phone.setFilename("P1234.png");
 		
-		Product notebook = new Product("{1235", "LG PC 그램", 1500000);
+		Product notebook = new Product("P1235", "LG PC 그램", 1500000);
 		notebook.setDescription("13.3-inch, IPS LED display, 5rd Generation Intel Core processors");
 		notebook.setCategory("Notebook");
 		notebook.setManufacturer("LG");
