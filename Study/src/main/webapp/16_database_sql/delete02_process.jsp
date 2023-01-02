@@ -36,9 +36,11 @@
 	 		pstmt.setString(1, id);
 	 		
 	 		// SELECT 문을 실행하도록 PreparedStatement 객체의 executeQuery() 메소드 작성
+	 		// executeQuery는 DB에서 데이터를 가져와 결과 값을 반환함
 	 		rs = pstmt.executeQuery();
 	 		
 	 		// SELCET 문으로 가져온 레코드가 있으면 실행
+	 		// 반복문 X
 	 		if (rs.next()) {
 	 			String rId = rs.getString("id");
 	 			String rPasswd = rs.getString("passwd");
@@ -55,6 +57,7 @@
 	 				pstmt.setString(1, id);
 	 				
 	 				// DELECT 문을 실행하도록 Statement 객체의 exectueUpdate() 메소드 작성
+	 				// executeUpdate() 메소드는 DB에서 데이터를 추가(insert), 삭제(delete), 수정(update)하는 sql문을 실행함.
 	 				pstmt.executeUpdate();
 	 				out.println("Member 테이블을 삭제했습니다.");
 	 			} else
