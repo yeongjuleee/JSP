@@ -15,7 +15,9 @@
          <description></description>
          
          <!-- 접근을 제한할 요청 경로를 설정하도록 <url-pattern> 요소를 작성 -->         
-         <url-pattern>/web_jsp/03_action/market/addProduct.jsp</url-pattern>        
+         <url-pattern>/web_jsp/03_action/market/addProduct.jsp</url-pattern>  
+         <url-pattern>/web_jsp/03_action/market/editProduct.jsp</url-pattern> 
+         <url-pattern>/web_jsp/03_action/market/deleteProduct.jsp</url-pattern>     
       </web-resource-collection>
       <auth-constraint>
          <description>권한 관리자명</description>

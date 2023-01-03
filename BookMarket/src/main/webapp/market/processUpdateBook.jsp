@@ -11,9 +11,9 @@
 
 <% 
 	request.setCharacterEncoding("UTF-8");
-
-	//파일이 저장되는 경로
-	String realPath = request.getServletContext().getRealPath("resources/images"); // 경로
+	
+	String realPath = request.getServletContext().getRealPath("resources/images");
+	// 파일이 저장되는 경로 
 	File dir = new File(realPath); 
 	if (!dir.exists()) { // 파일이 저장되는 경로 resources/images가 없을 경우, 지정된 경로에 해당되는 디렉토리(=resource(폴더))가 존재하는지 확인
 		dir.mkdirs(); // 해당되는 디렉토리가 없으면 만들기
@@ -23,9 +23,9 @@
 	String encType = "utf-8";	// 인코딩 타입
 	int maxSize = 5 * 1024 * 1024;	// 최대 업로드 될 파일의 크기 5MB
 	
-	MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, encType, new DefaultFileRenamePolicy());
+	MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, encType, 
+			new DefaultFileRenamePolicy());
 	// DefalutFileRename~ : 동일한 이름이 있을 경우 이름 바꾸기
-	
 	
 	String bookId = multi.getParameter("bookId"); // MultipartRequest하기 전에는 request.getParameter로 받았음
 	String name = multi.getParameter("name");
@@ -64,50 +64,59 @@
 	Enumeration files = multi.getFileNames();
 	String fname = (String)files.nextElement();
 	String fileName = multi.getFilesystemName(fname);
-	
-	/* 기존 부분
-	BookRepository dao = BookRepository.getInstance();
-	
-	Book newBook = new Book();
-	newBook.setBookId(bookId);
-	newBook.setName(name);
-	newBook.setUnitPrice(price);
-	newBook.setAuthor(author);
-	newBook.setDescription(description);
-	newBook.setPublisher(publisher);
-	newBook.setCategory(category);
-	newBook.setUnitsInStock(stock);
-	newBook.setTotallPages(totalPage);
-	newBook.setReleaseDate(releaseDate);
-	newBook.setCondition(condition);
-	newBook.setFilename(fileName);
-	
-	dao.addBook(newBook);
-	*/
-	
-	// db 연결부분 후 수정 부분
-	String sql = "insert into bookstore values(?,?,?,?,?,?,?,?,?,?,?,?)";
-	
+
+	// DB 연결 후 수정 부분 (BookRepository dao = ... 대신)
+	String sql ="select * from bookstore where b_id = ?";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, bookId);
-	pstmt.setString(2, name);
-	pstmt.setInt(3, price);
-	pstmt.setString(4, author);
-	pstmt.setString(5, description);
-	pstmt.setString(6, publisher);
-	pstmt.setString(7, category);
-	pstmt.setLong(8, stock);
-	pstmt.setLong(9, totalPage);
-	pstmt.setString(10, releaseDate);
-	pstmt.setString(11, condition);
-	pstmt.setString(12, fileName);
-	pstmt.executeUpdate();
+	rs = pstmt.executeQuery();
+	
+	if (rs.next()) {
+		if (fileName != null) {
+			sql = "UPDATE bookstore SET b_name=?, b_unitPrice=?, b_author=?, b_description=?, b_publisher=?, b_category=?,"
+		               + "b_unitsInStock=?, b_totalPages=?, b_releaseDate=?, b_condition=?, b_fileName=? WHERE b_id=?";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setInt(2, price);
+			pstmt.setString(3, author);
+			pstmt.setString(4, description);
+			pstmt.setString(5, publisher);
+			pstmt.setString(6, category);
+			pstmt.setLong(7, stock);
+			pstmt.setLong(8, totalPage);
+			pstmt.setString(9, releaseDate);
+			pstmt.setString(10, condition);
+			pstmt.setString(11, fileName);
+			pstmt.setString(12, bookId);
+			pstmt.executeUpdate();
+			
+		} else {
+			sql = "UPDATE bookstore SET b_name=?, b_unitPrice=?, b_author=?, b_description=?, b_publisher=?, b_category=?,"
+		               + "b_unitsInStock=?, b_totalPages=?, b_releaseDate=?, b_condition=? WHERE b_id=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setInt(2, price);
+			pstmt.setString(3, author);
+			pstmt.setString(4, description);
+			pstmt.setString(5, publisher);
+			pstmt.setString(6, category);
+			pstmt.setLong(7, stock);
+			pstmt.setLong(8, totalPage);
+			pstmt.setString(9, releaseDate);
+			pstmt.setString(10, condition);
+			pstmt.setString(11, bookId);
+			pstmt.executeUpdate();
+		}
+	}
 	
 	if (pstmt != null)
 		pstmt.close();
 	if (conn != null)
 		conn.close();
 	
-	response.sendRedirect("bookstore.jsp");
+	
+	response.sendRedirect("editBook.jsp?edit=update");
 %>
 

@@ -32,6 +32,13 @@
 			<h1 class="display-3">도서 등록</h1>
 		</div>
 	</div>
+	
+	<div class="container">
+		<div class="text-right">
+			<a href="logout.jsp" class="btn btn-sm btn-success pull-right">logout</a>
+		</div>
+	</div>
+	
 	<div class="container">
 		<form name="newBook" id="newBook" action="./processAddBook.jsp" class="form-horizontal" method="post"
 		enctype="multipart/form-data">

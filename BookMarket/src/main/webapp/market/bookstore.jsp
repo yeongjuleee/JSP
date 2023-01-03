@@ -63,8 +63,8 @@
 				<h3><%=rs.getString("b_name") %></h3>
 				<p><%=rs.getString("b_category")%></p>
 				<p><%=rs.getString("b_UnitPrice") %>원</p>
-				<p><%=rs.getString("b_Publisher") %>
-			<a href="./book.jsp?id=<%=rs.getString("b_id")%>" class="btn btn-secondary" role="buntton">
+				<p><%=rs.getString("b_Publisher") %></p>
+				<p><a href="./book.jsp?id=<%=rs.getString("b_id")%>" class="btn btn-secondary" role="button">
 				상세 정보 &raquo;</a></p>
 				<hr>
 			</div>
