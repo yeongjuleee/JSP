@@ -5,7 +5,7 @@
 <title>Login</title>
 </head>
 <body>
-	<jsp:include page="../shop/menu.jsp" />
+	<jsp:include page="../inc/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">로그인</h1>

@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
 <%
 	String sessionId = (String)session.getAttribute("sessionId");
 %>
 <nav class = "navbar navbar-expand navbar-dark bg-dark">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href ="./welcome.jsp">Home</a>
+			<a class="navbar-brand" href ="../main/welcome.jsp">Home</a>
 		</div>
 		<div>
 			<ul class="navbar-nav mr-auto">
@@ -23,9 +24,10 @@
 					</c:otherwise>
 				</c:choose>
 				<li class="nav-item"><a class="nav-link" href="../shop/products.jsp">상품 목록</a></li>
-				<li class="nav-item"><a class="nav-link" href="../shop/addProduct.jsp">상품 등록</a></li>
-				<li class="nav-item"><a class="nav-link" href="../shop/editProduct.jsp?edit=update">상품 수정</a></li>
-				<li class="nav-item"><a class="nav-link" href="../shop/editProduct.jsp?edit=delete">상품 삭제</a></li>
+				<li class="nav-item"><a class="nav-link" href="../admin/addProduct.jsp">상품 등록</a></li>
+				<li class="nav-item"><a class="nav-link" href="../admin/editProduct.jsp?edit=update">상품 수정</a></li>
+				<li class="nav-item"><a class="nav-link" href="../admin/editProduct.jsp?edit=delete">상품 삭제</a></li>
+			<%--<li class="nav-item"><a class="nav-link" href="../board/BoardListAction.do?pageNum=">상품 삭제</a></li> --%>
 			</ul>
 		</div>
 	</div>

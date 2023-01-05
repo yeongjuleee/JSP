@@ -7,7 +7,7 @@
 <%@ page import="com.oreilly.servlet.*" %>
 <%@ page import="com.oreilly.servlet.multipart.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="dbconn.jsp" %>
+<%@ include file="../inc/dbconn.jsp" %>
 
 <% 
 	request.setCharacterEncoding("UTF-8");
@@ -23,7 +23,8 @@
 	String encType = "utf-8";	// 인코딩 타입
 	int maxSize = 5 * 1024 * 1024;	// 최대 업로드 될 파일의 크기 5MB
 	
-	MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, encType, new DefaultFileRenamePolicy());
+	MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, encType, 
+			new DefaultFileRenamePolicy());
 	// DefalutFileRename~ : 동일한 이름이 있을 경우 이름 바꾸기
 	
 	String productId = multi.getParameter("productId");
@@ -53,40 +54,44 @@
 	Enumeration files = multi.getFileNames();
 	String fname = (String)files.nextElement();
 	String fileName = multi.getFilesystemName(fname);
-	
-	//기존 부분
-	//ProductRepository dao = ProductRepository.getInstance();
-	// ProductRepository 의 변수 dao 에서 Instance를 가져옴
-	//Product newProduct = new Product();
-	//newProduct.setProductId(productId);
-	//newProduct.setPname(name);
-	//newProduct.setUnitPrice(price);
-	//newProduct.setDescription(description);
-	//newProduct.setManufacturer(manufacturer);
-	//newProduct.setCategory(category);
-	//newProduct.setUnitsInStock(stock);
-	//newProduct.setCondition(condition);
-	//newProduct.setFilename(fileName);
-	
-	//dao.addProduct(newProduct);
-	
-	
-	
-	
+
 	// DB 연결 후 수정 부분 (ProductRepository dao = ... 대신)
-	String sql ="insert into product values(?,?,?,?,?,?,?,?,?)";
-	
+	String sql ="select * from product where p_id = ?";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, productId);
-	pstmt.setString(2, name);
-	pstmt.setInt(3, price);
-	pstmt.setString(4, description);
-	pstmt.setString(5, category);
-	pstmt.setString(6, manufacturer);
-	pstmt.setLong(7, stock);
-	pstmt.setString(8, condition);
-	pstmt.setString(9, fileName);
-	pstmt.executeUpdate();
+	rs = pstmt.executeQuery();
+	
+	if (rs.next()) {
+		if (fileName != null) {
+			sql = "UPDATE product SET p_name=?, p_unitPrice=?, p_description=?, p_manufacturer=?, p_category=?,"
+		               +"p_unitsInStock=?, p_condition=?, p_fileName=? WHERE p_id=?";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setInt(2, price);
+			pstmt.setString(3, description);
+			pstmt.setString(4, manufacturer);
+			pstmt.setString(5, category);
+			pstmt.setLong(6, stock);
+			pstmt.setString(7, condition);
+			pstmt.setString(8, fileName);
+			pstmt.setString(9, productId);
+			pstmt.executeUpdate();
+		} else {
+			sql = "UPDATE product SET p_name=?, p_unitPrice=?, p_description=?, p_manufacturer=?, p_category=?, "
+					+ "p_unitsInStock=?, p_condition=? WHERE p_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setInt(2, price);
+			pstmt.setString(3, description);
+			pstmt.setString(4, manufacturer);
+			pstmt.setString(5, category);
+			pstmt.setLong(6, stock);
+			pstmt.setString(7, condition);
+			pstmt.setString(8, productId);
+			pstmt.executeUpdate();
+		}
+	}
 	
 	if (pstmt != null)
 		pstmt.close();
@@ -94,6 +99,6 @@
 		conn.close();
 	
 	
-	response.sendRedirect("products.jsp");
+	response.sendRedirect("editProduct.jsp?edit=update");
 %>
 

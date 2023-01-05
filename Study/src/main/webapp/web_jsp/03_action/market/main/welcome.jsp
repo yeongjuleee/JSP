@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	 <%@ include file="menu.jsp"%>
+	 <%@ include file="../inc/menu.jsp"%>
    <%!String greeting = "웹 쇼핑몰에 오신 것을 환영합니다";
    String tagline= "Welcome to Web Market!";%>
       <div class="jumbotron">
@@ -43,7 +43,7 @@
          </div>
          <hr>
          </div>
-         <%@ include file="footer.jsp" %>
+         <%@ include file="../inc/footer.jsp" %>
 	
 </body>
 </html>
