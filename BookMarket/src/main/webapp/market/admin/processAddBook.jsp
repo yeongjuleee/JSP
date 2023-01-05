@@ -7,7 +7,7 @@
 <%@ page import="com.oreilly.servlet.*" %>
 <%@ page import="com.oreilly.servlet.multipart.*" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="dbconn.jsp" %>
+<%@ include file="../inc/dbconn.jsp" %>
 
 <% 
 	request.setCharacterEncoding("UTF-8");
@@ -108,6 +108,6 @@
 	if (conn != null)
 		conn.close();
 	
-	response.sendRedirect("bookstore.jsp");
+	response.sendRedirect("../shop/bookstore.jsp");
 %>
 

@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="java.sql.*"%>
-<%@ include file="dbconn.jsp" %>
+<%@ include file="../inc/dbconn.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
-<script type ="text/javascript" src="./resources/js/validation.js"></script>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+<script type ="text/javascript" src="../resources/js/validation.js"></script>
 <title>도서 수정</title>
 </head>
 <body>
-   <jsp:include page="menu.jsp"/>
+   <jsp:include page="../inc/menu.jsp"/>
    <div class="jumbotron">
       <div class="container">
          <h1 class="display-3"> 도서 수정 </h1>

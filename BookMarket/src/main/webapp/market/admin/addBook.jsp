@@ -4,7 +4,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script type="text/javascript" src="./resources/JS/validation.js"></script>
+<script type="text/javascript" src="../resources/JS/validation.js"></script>
 <meta charset="UTF-8">
 <title>도서 등록</title>
 </head>
@@ -26,7 +26,7 @@
 	7) 웹브라우저에 실행결과를 확인합니다.
 --%>
 <body>
-	<jsp:include page="menu.jsp" />
+	<jsp:include page="../inc/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">도서 등록</h1>
@@ -35,7 +35,7 @@
 	
 	<div class="container">
 		<div class="text-right">
-			<a href="logout.jsp" class="btn btn-sm btn-success pull-right">logout</a>
+			<a href="logoutMember.jsp" class="btn btn-sm btn-success pull-right">logout</a>
 		</div>
 	</div>
 	
