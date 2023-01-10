@@ -10,7 +10,7 @@
 
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>
 <%
 	String cartId = session.getId();
 %>
@@ -30,16 +30,21 @@
 		<div class="row">
 			<table width="100%">
 				<tr>
-					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">삭제하기</span></td>
+					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">전체 삭제하기</span></td>
+					<td align="left"><span class="btn btn-danger" onclick="removeCartSel()">선택 삭제하기</span></td>
 					<td align="right"><a href="./shippingInfo.jsp?cartId=<%=cartId%>" class="btn btn-success">주문하기</a></td>
 				</tr>
 			</table>
 		</div>
 		
 		<div style="padding-top: 50px">
+		<script type="text/javascript" src="../resources/js/check_system.js"></script>
+		<form name="frmCart" method="get">
+			<input type="hidden" name="id">
+			<input type="text" name="chkdID">
 			<table class="table table-hover">
 				<tr>
-					<th>상품</th>
+					<th><input name="chkAll" type="checkbox" onClick="setChkAll()">상품</th>
 					<th>가격</th>
 					<th>수량</th>
 					<th>소계</th>
@@ -53,24 +58,8 @@
 					for(CartDTO cart : cartArrayList) {
 						int total = Long.valueOf(cart.getP_unitPrice()).intValue() * cart.getP_count();
 						sum += total;
-					
-				/*	기존것
-					ArrayList<Product> cartList = (ArrayList<Product>) session.getAttribute("cartlist");
-					if(cartList == null) {
-						cartList = new ArrayList<Product>();
-					
-					}
-					
-					   //for(int i=0; i<cartList.size(); i++){ //상품리스트 하나씩 출력하기
-		               //   Product product = cartList.get(i);
-		               //   int total =product.getUnitPrice() * product.getQuantity();
-		               //   sum = sum + total;
-		               
-		               for(Product product : cartList){
-		                  int total = product.getUnitPrice() * product.getQuantity();
-		                  sum += total;
-					
-				*/	
+				
+
 				%>
 				<tr>
 					<td>
@@ -79,18 +68,12 @@
 					</td>
 					<td><%=cart.getP_unitPrice() %></td>
 					<td><%=cart.getP_count() %></td>
-					<td><%=total %></td>
+					<td><%=cart.getP_unitPrice() * cart.getP_count() %></td>
 					<td>
 						<span class="badge badge-danger btn" onclick="removeCartByID('<%=cart.getCartId() %>')">삭제</span>
 					</td>
-					
-				<%--  기존것
-					<td><%=product.getProductId()%> - <%=product.getPname()%></td>
-					<td><%=product.getUnitPrice()%></td>
-					<td><%=product.getQuantity()%></td>
-					<td><%=total%></td>
-					<td><span class="badge badge-danger" onclick="removeCartByID('<%=product.getProductId()%>')">삭제</span></td> 
-				--%>
+				
+
 				</tr>
 				<%
 					}
@@ -103,31 +86,54 @@
 					<th></th>
 				</tr>
 			</table>
-			<a href="./products.jsp" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
-		</div>
-		<form name="frmCart" method="post">
-			<input type="hidden" name="id">
-		</form>
+			</form>
+			
+		
+
+		
 		<script>
+			window.onload = function () {
+				document.frmCart.chkAll.checked = true;	// 전체 선택 체크박스 체크
+				setChkAll();	// 목록의 체크박스 체크
+			}
+			
+			function frmName() {
+				return document.frmCart;
+			}
+			
+
+			</script>
+					<script>
 			const frm = document.frmCart;
 			let removeCartByID = function(ID) {
-				if(confirm("삭제하시겠습니까?")) {
-					frm.id.value = ID;
-					frm.action = "removeCart.jsp";
-					frm.submit();
+				if(confirm("해당 상품을 삭제하시겠습니까?")) {
+					//frm.id.value = ID;
+					//frm.action = "removeCart.jsp";
+					//frm.submit();
+					location.href= 'removeCart.jsp?id=' + ID;
+				}
+			}
+			
+			let removeCartSel = function() {
+				if(confirm ("선택한 상품을 삭제하시겠습니까?")) {
+						frm.action = "removeCartSel.jsp";
+						frm.submit();
 				}
 			}
 			
 			let deleteCart = function() {
 				if(confirm("전체 삭제하시겠습니까?")) {
-					frm.action = "deleteCart.jsp";
-					frm.submit();	
+					//frm.action = "deleteCart.jsp";
+					//frm.submit();
+					location.href = 'deleteCart.jsp';
 				}
 			}
 			
 		</script>
-		<hr>
+	<a href="./products.jsp" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
 	</div>
+	</div>
+	
 	<jsp:include page="../inc/footer.jsp" />
 </body>
 </html>

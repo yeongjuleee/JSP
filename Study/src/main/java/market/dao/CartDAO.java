@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import market.dto.CartDTO;
 public class CartDAO {
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
+	private Statement statement = null; 
 	private ResultSet resultSet = null;
 	
 	public CartDAO() {
@@ -46,7 +48,7 @@ public class CartDAO {
 			
 			if(resultSet.next()) {
 				int cartId = resultSet.getInt("cartId");
-				sql = "UPDATE cart SET cnt = cnt + 1 WHERE cartId = ?";
+				sql = "UPDATE cart SET p_count = p_count + 1 WHERE cartId = ?";
 				preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setInt(1, cartId);
 				flag = preparedStatement.executeUpdate();
@@ -130,4 +132,43 @@ public class CartDAO {
 		
 	}
 	
+	// 장바구니에서 상품을 개별 삭제
+	public boolean deleteCartById(String p_orderNum, int cartId) throws SQLException {
+		int flag = 0;
+		String sql = "SELECT * FROM cart WHERE p_orderNum = ? AND cartId = ?";
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, p_orderNum);
+		preparedStatement.setInt(2, cartId);
+		resultSet = preparedStatement.executeQuery();
+		
+		if(resultSet.next()) {
+			sql = "DELETE FROM cart WHERE cartId = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, cartId);
+			flag = preparedStatement.executeUpdate();
+		}
+		return flag == 1;
+	}
+	
+	// 장바구니에서 전체 상품 삭제
+	public boolean deleteCartAll (String p_orderNum) throws SQLException {
+		int flag = 0;
+		String sql = "DELETE FROM cart WHERE p_orderNum = ?";
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, p_orderNum);
+		flag = preparedStatement.executeUpdate();
+		
+		return flag == 1;
+		
+	}
+	
+	// 장바구니에서 선택 상품 삭제
+	public boolean deleteCartBySelId(String p_orderNum, String chkdId) throws SQLException {
+		int flag = 0;
+		String sql = "DELETE FROM cart WHERE p_orderNum = '" + p_orderNum + "' AND cartId IN (" + chkdId + ")' ";
+		statement = connection.createStatement();
+		flag = statement.executeUpdate(sql);
+		
+		return flag != 0;
+	}
 }
