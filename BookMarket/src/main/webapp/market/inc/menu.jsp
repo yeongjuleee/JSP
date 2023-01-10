@@ -25,10 +25,8 @@
 					<li class="nav-item"><a class="nav-link" href="<c:url value="../member/updateMember.jsp"/>">회원 수정</a></li>
 				</c:otherwise>
 			</c:choose>
-			<li class="nav-item"><a class="nav-link" href="../shop/bookstore.jsp">도서 목록</a></li>
-			<li class="nav-item"><a class="nav-link" href="../admin/addBook.jsp">도서 등록</a></li>
-			<li class="nav-item"><a class="nav-link" href="../admin/editBook.jsp?edit=update">도서 수정</a></li>
-			<li class="nav-item"><a class="nav-link" href="../admin/editBook.jsp?edit=delete">도서 삭제</a></li>
+			<li class="nav-item"><a class="nav-link" href="../shop_db/bookstore.jsp">도서 목록</a></li>
+			<li class="nav-item"><a class="nav-link" href="../shop_db/cart.jsp">장바구니</a></li>
 			<%--<li class="nav-item"><a class="nav-link" href="../board/BoardListAction.do?pageNum=">상품 삭제</a></li> --%>
 		</ul>
 	</div>

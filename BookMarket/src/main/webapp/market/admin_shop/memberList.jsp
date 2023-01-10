@@ -38,7 +38,7 @@
 		<%
 	      //1. 페이지당 게시물 가져오기
 	      //   - 페이지 당 게시물 수, 페이지 번호 필요
-	      int cntListPerPage = 2;   //페이지 당 게시물 수
+	      int cntListPerPage = 5;   //페이지 당 게시물 수
 	      int pageNum = 1;    //주소에 페이지 번호가 전달이 안 되는 경우는 첫페이지라서 미리 지정하는 것임 
 	      if(request.getParameter("pageNum") != null) {
 	         pageNum=Integer.parseInt(request.getParameter("pageNum"));
@@ -92,13 +92,11 @@
 			int blockThisLastPage = blockThis * block;	// 현재 블록의 마지막 페이지
 			blockThisLastPage = (blockThisLastPage > totalPage) ? totalPage : blockThisLastPage;	// 마지막 블록의 경우 전체 페이지 번호가 블록의 마지막 페이지
 			
-			/*
 			out.println("totalPage : " + totalPage + "<br>");
 			out.println("totalBlock : " + blockTotal + "<br>");
 			out.println("thisBlock : " + blockThis + "<br>");
 			out.println("firstPage : " + blockThisFirstPage + "<br>");
 			out.println("lastPage : " + blockThisLastPage + "<br>");
-			*/
 		
 			// 4. 페이징 출력
 		%>

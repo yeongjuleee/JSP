@@ -11,8 +11,8 @@ function CheckAddBook() {
 		return false;
 		
 	// 상품명 체크
-	if (name.value.length < 1 || name.value.length > 12) {
-		alert("[도서명]\n최소 1자에서 최대 12자까지 입력하세요");
+	if (name.value.length < 1 || name.value.length > 30) {
+		alert("[도서명]\n최소 1자에서 최대 30자까지 입력하세요");
 		name.select();
 		name.focus();
 		return false;

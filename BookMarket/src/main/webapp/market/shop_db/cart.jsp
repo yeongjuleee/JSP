@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="market.dto.Product" %>
-<%@ page import="market.dao.ProductRepository"%>
-<%@ page import="market.dao.ProductDAO" %>
-<%@ page import="market.dao.CartDAO" %>
-<%@ page import="market.dto.CartDTO" %>
-<%@ page import="market.dto.Product" %>
+<%@ page import="bookstore.dto.Book" %>
+<%@ page import="bookstore.dao.BookRepository"%>
+<%@ page import="bookstore.dao.BookDAO" %>
+<%@ page import="bookstore.dao.CartDAO" %>
+<%@ page import="bookstore.dto.CartDTO" %>
+<%@ page import="bookstore.dto.Book" %>
 
 <html>
 <head>
@@ -15,7 +15,6 @@
 	String cartId = session.getId();
 %>
 <title>장바구니</title>
-
 </head>
 
 <body>
@@ -30,7 +29,7 @@
 		<div class="row">
 			<table width="100%">
 				<tr>
-					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">전체 삭제하기</span></td>
+					<td align="left"><span class="btn btn-danger" onclick="deleteCart()">삭제하기</span></td>
 					<td align="left"><span class="btn btn-danger" onclick="removeCartSel()">선택 삭제하기</span></td>
 					<td align="right"><a href="./shippingInfo.jsp?cartId=<%=cartId%>" class="btn btn-success">주문하기</a></td>
 				</tr>
@@ -38,7 +37,7 @@
 		</div>
 		
 		<div style="padding-top: 50px">
-		<script type="text/javascript" src="../resources/js/check_system.js"></script>
+		<script type="text/javascript" src="../resources/JS/check_system.js"></script>
 		<form name="frmCart" method="get">
 			<input type="hidden" name="id">
 			<input type="text" name="chkdID">
@@ -56,7 +55,7 @@
 					String orderNo = session.getId();
 					ArrayList<CartDTO> cartArrayList = cartDAO.getCartList(orderNo);
 					for(CartDTO cart : cartArrayList) {
-						int total = Long.valueOf(cart.getP_unitPrice()).intValue() * cart.getP_count();
+						int total = Long.valueOf(cart.getB_unitPrice()).intValue() * cart.getB_count();
 						sum += total;
 				
 
@@ -64,11 +63,11 @@
 				<tr>
 					<td>
 						<input type="checkbox" name="chkID" value="<%=cart.getCartId() %>" onClick="setChkAlone(this);">
-						<%=cart.getP_id()%> - <%=cart.getP_name() %>
+						<%=cart.getB_id()%> - <%=cart.getB_name() %>
 					</td>
-					<td><%=cart.getP_unitPrice() %></td>
-					<td><%=cart.getP_count() %></td>
-					<td><%=cart.getP_unitPrice() * cart.getP_count() %></td>
+					<td><%=cart.getB_unitPrice() %></td>
+					<td><%=cart.getB_count() %></td>
+					<td><%=cart.getB_unitPrice() * cart.getB_count() %></td>
 					<td>
 						<span class="badge badge-danger btn" onclick="removeCartByID('<%=cart.getCartId() %>')">삭제</span>
 					</td>
@@ -88,9 +87,6 @@
 			</table>
 			</form>
 			
-		
-
-		
 		<script>
 			window.onload = function () {
 				document.frmCart.chkAll.checked = true;	// 전체 선택 체크박스 체크
@@ -103,7 +99,7 @@
 			
 
 		</script>
-					
+		
 		<script>
 			const frm = document.frmCart;
 			let removeCartByID = function(ID) {
@@ -131,7 +127,7 @@
 			}
 			
 	</script>
-	<a href="./products.jsp" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
+	<a href="./bookstore.jsp" class="btn btn-secondary"> &laquo; 쇼핑 계속하기</a>
 	</div>
 	</div>
 	

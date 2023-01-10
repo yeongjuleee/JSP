@@ -1,26 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="market.dto.Product" %>
-<%@ page import="market.dao.ProductRepository" %>
+<%@ page import="bookstore.dto.Book" %>
+<%@ page import="bookstore.dao.BookRepository" %>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <meta charset="UTF-8">
-<title>상품목록</title>
+<title>도서 목록</title>
 </head>
 <body>
 	<jsp:include page="../inc/menu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
-			<h1 class="display-3">상품목록</h1>
+			<h1 class="display-3">도서목록</h1>
 		</div>
 	</div>
 	
 	<div class="container">
 	<%@ include file="../inc/dbconn.jsp" %>
-		<div class="row" align="center">
+		<div class="col">
 			<%
 		      //1. 페이지당 게시물 가져오기
 		      //   - 페이지 당 게시물 수, 페이지 번호 필요
@@ -33,36 +33,38 @@
 		      //2. 페이지 번호 당 게시물을 들고 오기
 		      // - 시작 게시물 번호, 페이지당 게시물 수 필요
 		      int startNum = (pageNum -1) * cntListPerPage;   //1페이지:0, 2페이지:2, 3페이지:4부터
-		      String sql = "SELECT * FROM product LIMIT ?, ?";
+		      String sql = "SELECT * FROM bookstore LIMIT ?, ?";
 		      pstmt = conn.prepareStatement(sql);
 		      pstmt.setInt(1, startNum);
 		      pstmt.setInt(2, cntListPerPage);
 		      rs = pstmt.executeQuery();
 		   
 		      while (rs.next()) {
-		      %>   		
-				<div class="col-md-4">
-					<img src="c:/upload/<%=rs.getString("p_fileName")%>"
-					style = "width: 300px" alt="">
-					<img src="${pageContext.request.contextPath}/resources/images/<%=rs.getString("p_fileName")%>"
-	            	style = "width: 300px" alt="">
-					<h3><%=rs.getString("p_name")%></h3>
-					<p><%=rs.getString("p_description") %></p>
-					<p><%=rs.getString("p_UnitPrice") %>원
-					<p><a href="./product.jsp?id=<%=rs.getString("p_id")%>" class="btn btn-secondary" role="buntton">
-					상세 정보 &raquo;</a></p>
-				</div>
+		      %> 
+		      
+			<div class="col-md-12">
+				<img src="${pageContext.request.contextPath}/resources/images/<%=rs.getString("b_fileName")%>"
+				style = "width: 300px" alt="">
+				<h3><%=rs.getString("b_name") %></h3>
+				<p><%=rs.getString("b_category")%></p>
+				<p><%=rs.getString("b_UnitPrice") %>원</p>
+				<p><%=rs.getString("b_Publisher") %></p>
+				<p><a href="./book.jsp?id=<%=rs.getString("b_id")%>" class="btn btn-secondary" role="button">
+				상세 정보 &raquo;</a></p>
+				<hr>
+			</div>
 				<% 
 					}
 				%>
 		<div class="col-sm-5">
 			<%
 				// 3. 페이징 출력을 위해 필요한 값 : 전체 페이지 수
-				sql = "SELECT count(*) FROM product";
+				sql = "SELECT count(*) FROM bookstore";
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				rs.next();
 				int totalRecord = rs.getInt(1);	// 전체 게시물 수
+				
 				// 전체 페이지 수 
 				// 1. 전체 게시물 수가 페이지당 게시물 수의 배수일 경우 / 페이지당 게시물 수
 				// 2. 전체 게시물 수가 페이지당 게시물 수의 배수가 아닐 경우 (전체 게시물 수 / 페이지당 게시물 수) + 1
@@ -85,10 +87,10 @@
 			
 				// 4. 페이징 출력
 			%>
-			<a href="products.jsp?pageNum=1">첫 페이지</a>
+			<a href="bookstore.jsp?pageNum=1">첫 페이지</a>
 			<%
 				if(blockThis > 1) { // 2번 블록부터 이전 페이지 출력 : 이번 블록의 첫 페이지 -1 %>
-				<a href="products.jsp?pageNum=<%=(blockThisFirstPage -1)%>">이전</a>
+				<a href="bookstore.jsp?pageNum=<%=(blockThisFirstPage -1)%>">이전</a>
 					<%
 				}
 					%>
@@ -96,17 +98,17 @@
 					// 현재 블록의 첫 페이지부터 현재 블록의 마지막 페이지까지 반복
 					for (int i = blockThisFirstPage; i <= blockThisLastPage; i++) {					
 				%>
-				<a href="products.jsp?pageNum=<%=i %>"><%=i %></a>
+				<a href="bookstore.jsp?pageNum=<%=i %>"><%=i %></a>
 				<%
 					}
 				%>
 				<%
 					if(blockThis < blockTotal) { // 현재 블록이 마지막 블록이 아니면, %>
-					<a href="products.jsp?pageNum=<%=(blockThisLastPage +1) %>">다음</a>
+					<a href="bookstore.jsp?pageNum=<%=(blockThisLastPage +1) %>">다음</a>
 				<%
 					}
 				%>
-				<a href="products.jsp?pageNum=<%=totalPage %>">마지막 페이지</a>
+				<a href="bookstore.jsp?pageNum=<%=totalPage %>">마지막 페이지</a>
 			</div>		
 			<% 
 				if (rs != null)
@@ -119,8 +121,6 @@
 			
 				
 		</div>
-		<hr>
-	</div>
 	<jsp:include page="../inc/footer.jsp" />
 </body>
 </html>

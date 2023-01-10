@@ -4,7 +4,6 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script type="text/javascript" src="../resources/JS/validation.js"></script>
 <meta charset="UTF-8">
 <title>도서 등록</title>
 </head>
@@ -125,4 +124,5 @@
 		</form>
 	</div>
 </body>
+<script type="text/javascript" src="../resources/JS/validation.js"></script>
 </html>
