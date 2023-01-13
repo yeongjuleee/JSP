@@ -11,7 +11,7 @@
 		<h2>주소록 : 작성화면</h2>
 		<hr>
 		<a href=./address_book_control.jsp?action=list>주소록 목록으로</a> <br>
-		<form name="frmInsert" method="post" action="./address_book_control.jsp">
+		<form name="frmInsert" method="post" action="./controller.do">
 			<input type="hidden" name="action" value="insert">
 			
 			<table border="1">
