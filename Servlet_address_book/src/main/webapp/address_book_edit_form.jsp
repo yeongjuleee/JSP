@@ -26,7 +26,7 @@
 	<div align="center">
 		<h2>주소록 : 수정 화면</h2>
 		<hr>
-		<a href=./address_book_control.jsp?action=list>주소록 목록으로</a> <br>
+		<a href="./controller.do?action=list">주소록 목록으로</a> <br>
 		<form name="frmUpdate" method="post" action="./controller.do">
 			<input type="hidden" name="id" value="<%=addressBookDTO.getId() %>">
 			<input type="hidden" name="action" value="update">
@@ -65,7 +65,7 @@
 				<tr>
 					<td colspan=2 align=center>
 						<input type="submit" value="저장">
-						<input type="submit" value="취소">
+						<input type="reset" value="취소">
 						<input type="button" value="삭제" onClick="delcheck()">
 					</td>
 				</tr>

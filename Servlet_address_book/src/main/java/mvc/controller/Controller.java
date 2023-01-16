@@ -38,7 +38,7 @@ public class Controller extends HttpServlet {
 		if (action.equals("list")) {
 			ArrayList<AddressBookDTO> datas = dao.getDBList();
 			req.setAttribute("datas", datas);
-			RequestDispatcher requestDispatcher = req.getRequestDispatcher("control.do?action=list");
+			RequestDispatcher requestDispatcher = req.getRequestDispatcher("address_book_list.jsp");
 			requestDispatcher.forward(req, resp);
 		}
 		
