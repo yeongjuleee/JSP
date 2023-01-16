@@ -1,0 +1,77 @@
+<web-app>
+	<!-- 10. 선언적 시큐리티 처리 -->
+   <!-- 시큐리티 역할을 설정하도록 <security-role> 요소를 작성 -->
+   <security-role>
+      <description></description>
+      <role-name>admin</role-name>
+   </security-role>
+   
+   <!-- // 시큐리티 영할을 설정하도록 <security-role> 요소를 작성 -->
+   <!-- 시큐리티 제약 사항을 설정하도록 <security-constraint> 요소를 작성 --> 
+         <!-- 권한이 부여된 사용자 이름을 설정하도록 <role-name> 요소를 작성 -->    
+         <!-- 접근을 제한할 요청 경로를 설정하도록 <url-pattern> 요소를 작성      
+   <security-constraint>
+        <display-name>WebMarket Security</display-name>
+      <web-resource-collection>
+         <web-resource-name>WebMarket</web-resource-name>
+         <description></description>
+              
+         <url-pattern>/web_jsp/03_action/market/admin/addProduct.jsp</url-pattern>  
+         <url-pattern>/web_jsp/03_action/market/admin/editProduct.jsp</url-pattern> 
+         <url-pattern>/web_jsp/03_action/market/admin/deleteProduct.jsp</url-pattern>     
+      </web-resource-collection>
+      <auth-constraint>
+         <description>권한 관리자명</description>
+              
+         <role-name>admin</role-name>
+      </auth-constraint>
+   </security-constraint>--> 
+      <!--  FORM 인증 처리 기법을 설정하도록 <auth-method> 요소를 작성   
+   <login-config>
+             
+      <auth-method>FORM</auth-method>
+      <form-login-config>
+         <form-login-page>/web_jsp/03_action/market/login.jsp</form-login-page>
+         <form-error-page>/web_jsp/03_action/market/logout.jsp</form-error-page>
+      </form-login-config>
+   </login-config>--> 
+   
+   <!--  오류가 발생했을 때 오류 상태와 오류 페이지를 출력하도록 작성 -->
+   <!--  
+	   <error-page>
+	    	<exception-type>java.lang.Exception</exception-type>
+	    	<location>/11_exception/exceptionType_error.jsp</location>
+	   </error-page>-->
+  
+   <error-page>
+   	<error-code>404</error-code>
+   	<location>/web_jsp/03_action/market/exception/exceptionNoPage.jsp</location>
+   </error-page> 
+ 
+<!--   
+   <servlet>
+   		<servlet-name>myController</servlet-name>
+   		<servlet-class>controller.ControllerServlet</servlet-class>
+   </servlet>
+--> 
+ 
+<!--   
+   <servlet-mapping>
+   		 특정 url로 들어갈 때
+   		<servlet-name>myController</servlet-name>
+   		<url-pattern>/18_mvc/ControllerServlet</url-pattern>
+   </servlet-mapping>  
+-->
+
+	<servlet>
+		<servlet-name>GugudanController</servlet-name>
+		<servlet-class>gugudan.Controller.GugudanController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GugudanController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
+         
