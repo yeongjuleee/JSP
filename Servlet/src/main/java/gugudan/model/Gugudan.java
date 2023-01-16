@@ -1,7 +1,11 @@
 package gugudan.model;
 
 public class Gugudan {
-	private int x; // 단
-	private int y; // 바뀌는 수
-	private int z; // 결과
+	public int[] gugu(int n) {
+		int[] result = new int[9];
+		for (int i = 1; i < 10; i++) {
+			result[i-1] = n * 1;
+		}
+		return result;
+	}
 }

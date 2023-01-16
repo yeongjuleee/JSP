@@ -9,6 +9,12 @@
 <body>
    <h2>구구단 결과</h2>
    <hr>
-   <p> 결과 : ${Gugudan.z} </p>
+   <%
+   		int n = Integer.parseInt(request.getParameter("n"));
+   		int [] aa = (int[])request.getAttribute("result");
+   		for (int i = 0; i < 9; i++) {
+   			out.println(n + " X " + (i + 1) + " = " + aa[i] + "<br>");
+   		}
+   %>
 </body>
 </html>

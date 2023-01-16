@@ -12,7 +12,7 @@
    뷰 구현 : mvc.jsp
     -->
 	 <form method="post" action="GugudanController">
-	 	<p>구구단 : <input type="text" name="n1" size="10">
+	 	<p>구구단 : <input type="text" name="n" size="10">
 	 	<input type="submit" value="제출">
 	 </form>
 </body>
