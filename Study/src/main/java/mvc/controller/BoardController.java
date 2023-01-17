@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.apache.catalina.connector.Request;
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
 
+@WebServlet("*.do")
 public class BoardController extends HttpServlet {
 	static final int LISTCOUNT = 5;	//페이지 당 게시물 수
 
@@ -42,7 +44,7 @@ public class BoardController extends HttpServlet {
 			rd.forward(req,  resp);
 		} 
 		else if (command.contains("/BoardWriteForm.do")) {	//글 등록 페이지 출력하기
-			requestLoginName(req);	//메소드 실행
+			//requestLoginName(req);	//메소드 실행
 			RequestDispatcher rd = req.getRequestDispatcher("../board/writeForm.jsp");
 			rd.forward(req,  resp);
 		} 
@@ -59,6 +61,11 @@ public class BoardController extends HttpServlet {
 		else if(command.contains("/BoardView.do")) { // 글 상세 페이지 출력하기 
 			RequestDispatcher rd = req.getRequestDispatcher("../board/view.jsp");
 			rd.forward(req,  resp);
+		}
+		else if(command.contains("/BoardUpdateForm.do")) { // 글 수정폼  출력
+			requestBoardView(req);
+			RequestDispatcher rd = req.getRequestDispatcher("../board/updateForm.jsp");
+			rd.forward(req, resp);
 		}
 		else if(command.contains("/BoadUpdateForm.do")) { // 글 수정 페이지 
 			requestBoardUpdate(req);
@@ -116,7 +123,7 @@ public class BoardController extends HttpServlet {
 	}
 	
 	//인증된 사용자명 가져오기
-	public void requestLoginName(HttpServletRequest request) {
+	/*public void requestLoginName(HttpServletRequest request) {
 		
 		String id = request.getParameter("id");	//이렇게 하는 건 보안 상 안 좋고 session으로 받아야 함
 		
@@ -126,7 +133,7 @@ public class BoardController extends HttpServlet {
 		
 		request.setAttribute("name", name);		
 	}
-	
+	*/
 	
 	//새글 등록하기
 	public void requestBoarderWrite(HttpServletRequest request) {

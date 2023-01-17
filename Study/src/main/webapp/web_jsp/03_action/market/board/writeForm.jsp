@@ -43,7 +43,7 @@
 				<div class="form-group row">
 					<label class="col-sm-2 control-label">성명</label>
 					<div class="col-sm-3">
-						<input name="name" type="text" class="form-control" value="<%=name %>" placeholder="name">
+						<input name="name" type="text" class="form-control" value="${sessionName }" placeholder="name">
 					</div>
 				</div>
 				<div class="form-group row">

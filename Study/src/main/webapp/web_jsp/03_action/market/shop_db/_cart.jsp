@@ -52,13 +52,11 @@
 				</tr>
 				<%
 					int sum = 0;
-					CartDAO cartDAO = new CartDAO();
-					String orderNo = session.getId();
-					ArrayList<CartDTO> cartArrayList = cartDAO.getCartList(orderNo);
-					for(CartDTO cart : cartArrayList) {
-						int total = Long.valueOf(cart.getP_unitPrice()).intValue() * cart.getP_count();
-						sum += total;
-				
+	               
+	               ArrayList<CartDTO> cartArrayList = (ArrayList<CartDTO>) request.getAttribute("cartArrayList");   //어레이리스트로 형변환해서 들고오기
+	               for (CartDTO cart : cartArrayList) {
+	                  int total = Long.valueOf(cart.getP_unitPrice()).intValue() * cart.getP_count();
+	                  sum +=total;
 
 				%>
 				<tr>

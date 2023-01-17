@@ -9,6 +9,7 @@
 <%@ page import="market.dto.Product" %>
 
 <%
+	// 파라미터로 넘어온 아이디 값을 확인
 	String id = request.getParameter("id");
 	if (id == null || id.trim().equals("")) {
 		response.sendRedirect("products.jsp");
