@@ -19,7 +19,7 @@ import mvc.model.BoardDTO;
 
 @WebServlet("*.do")
 public class BoardController extends HttpServlet {
-	static final int LISTCOUNT = 5;	//페이지 당 게시물 수
+	static final int LISTCOUNT = 10;	//페이지 당 게시물 수
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -116,6 +116,7 @@ public class BoardController extends HttpServlet {
 		}
 		
 		//view에 보여줄 거 정리하는 역할?
+		req.setAttribute("limit", limit); 				//게시물 일련번호(?)
 		req.setAttribute("pageNum",pageNum);			//페이지 번호
 		req.setAttribute("total_page",total_page);		//전체 페이지 수
 		req.setAttribute("total_record",total_record);	//전체 게시물 수
