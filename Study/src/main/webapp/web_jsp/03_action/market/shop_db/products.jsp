@@ -65,6 +65,7 @@
 				int totalRecord = rs.getInt(1);	// 전체 게시물 수
 				// 전체 페이지 수 
 				// 1. 전체 게시물 수가 페이지당 게시물 수의 배수일 경우 / 페이지당 게시물 수
+				
 				// 2. 전체 게시물 수가 페이지당 게시물 수의 배수가 아닐 경우 (전체 게시물 수 / 페이지당 게시물 수) + 1
 				int totalPage = (totalRecord % cntListPerPage == 0) ? totalRecord / cntListPerPage : (totalRecord / cntListPerPage) + 1;
 				// out.print(totalPage);

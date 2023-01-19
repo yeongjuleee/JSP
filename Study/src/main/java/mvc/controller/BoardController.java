@@ -1,6 +1,7 @@
 package mvc.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -11,15 +12,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
 
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
+import mvc.model.RippleDAO;
+import mvc.model.RippleDTO;
 
 @WebServlet("*.do")
 public class BoardController extends HttpServlet {
 	static final int LISTCOUNT = 10;	//페이지 당 게시물 수
+	private String boardName = "board";	// 리플을 달 수 있는 게시판 이름?
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,6 +60,7 @@ public class BoardController extends HttpServlet {
 		} 	
 		else if (command.contains("/BoardViewAction.do")) { // 선택된 글 상세 페이지 가져오기
 			requestBoardView(req);
+			requestRippleList(req);
 			RequestDispatcher rd = req.getRequestDispatcher("../board/BoardView.do");
 			rd.forward(req,  resp);
 		}
@@ -82,6 +88,20 @@ public class BoardController extends HttpServlet {
 			requestBoardDelete(req);
 			RequestDispatcher rd = req.getRequestDispatcher("../board/BoardListAction.do");
 			rd.forward(req, resp);
+		}
+		else if(command.contains("/RippleWriteAction.do")) { // 리플 쓰기
+			// 메소드
+			requestBoardRippleWriteAction(req);
+			
+			int num = Integer.parseInt(req.getParameter("num"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+			resp.sendRedirect("BoardViewAction.do?num=" + num + "&pageNum=" + pageNum);
+		}
+		else if (command.contains("BoardRippleDeleteAction.do")) { // 리플 삭제
+			requestBoardRippleDelete(req);
+			int num = Integer.parseInt(req.getParameter("num"));
+			int pageNum = Integer.parseInt(req.getParameter("pageNum"));
+			resp.sendRedirect("BoardViewAction.do?num=" + num + "&pageNum=" + pageNum);
 		}
 	}
 	
@@ -160,6 +180,8 @@ public class BoardController extends HttpServlet {
 		board.setIp(request.getRemoteAddr());
 		
 		dao.insertBoard(board);
+		
+		// 포인트 넣는 장소
 	}
 	
 	// 선택된 글 상세 페이지 가져오기
@@ -200,4 +222,51 @@ public class BoardController extends HttpServlet {
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.deleteBoard(num);
 	}
+	
+	// 댓글 등록
+	public void requestBoardRippleWriteAction(HttpServletRequest request) throws UnsupportedEncodingException {
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		
+		RippleDAO dao = RippleDAO.getInstance();
+		RippleDTO ripple = new RippleDTO();
+		
+		request.setCharacterEncoding("utf-8");
+		
+		HttpSession session = request.getSession();
+		ripple.setBoardName(this.boardName);
+		ripple.setBoardNum(num);
+		ripple.setMemberId((String) session.getAttribute("sessionId"));
+		ripple.setName(request.getParameter("name"));
+		ripple.setContent(request.getParameter("content"));
+		ripple.setIp(request.getRemoteAddr());
+		
+		dao.insertRipple(ripple);
+		
+		// 포인트 넣는 장소 
+	}
+	
+	
+	// 댓글 목록 가져오기
+	public void requestRippleList(HttpServletRequest request) {
+		RippleDAO dao = RippleDAO.getInstance();
+		List<RippleDTO> rippleList = new ArrayList<>();
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		rippleList = dao.getRippleList(this.boardName, num);
+		
+		request.setAttribute("rippleList", rippleList);
+	}
+		
+	// 댓글 삭제하기 
+	public void requestBoardRippleDelete(HttpServletRequest request) throws UnsupportedEncodingException {
+		int rippleId = Integer.parseInt(request.getParameter("rippleId"));
+		
+		RippleDAO dao = RippleDAO.getInstance();
+		RippleDTO ripple = new RippleDTO();
+		ripple.setRippleId(rippleId);
+		dao.deleteRipple(ripple);
+		
+	} //댓글 삭제하기 
 }

@@ -162,6 +162,7 @@ public class BoardDAO {
 		
 	}
 	
+	// 게시글 추가
 	public void insertBoard (BoardDTO board) {
 		
 		Connection conn = null;
