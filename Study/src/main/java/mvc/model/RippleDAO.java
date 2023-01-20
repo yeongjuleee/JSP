@@ -17,10 +17,12 @@ public class RippleDAO {
 	}
 	
 	// 댓글 추가
-	public void insertRipple (RippleDTO ripple) {
+	public boolean insertRipple (RippleDTO ripple) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		int flag = 0;
+		
 		try {
 			conn = DBConnection.getConnection();
 			
@@ -35,7 +37,7 @@ public class RippleDAO {
 			pstmt.setString(6, ripple.getContent());
 			pstmt.setString(7, ripple.getIp());
 			
-			pstmt.executeUpdate();
+			flag = pstmt.executeUpdate();
 		} catch (Exception ex) {
 			System.out.println("insertRipple() 에러: "+ex);			
 		} finally {
@@ -49,7 +51,8 @@ public class RippleDAO {
 			} catch (Exception ex) {
 				throw new RuntimeException(ex.getMessage());
 			}
-		} 
+		}
+		return flag != 0; 
 		
 	} // insertRipple 끝	
 	
@@ -101,9 +104,10 @@ public class RippleDAO {
 	} // getRippleList(리플 목록 가져오기) 끝
 	
 	// 댓글 삭제하기
-	public void deleteRipple(RippleDTO ripple) {
+	public boolean deleteRipple(RippleDTO ripple) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		int flag = 0;
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -112,8 +116,11 @@ public class RippleDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, ripple.getRippleId());
 			// rippleId를 ripple에 받아와서 값을 가져옴.
-			pstmt.executeUpdate();
-		
+			
+			flag = pstmt.executeUpdate();
+			System.out.println(sql);
+			System.out.println(ripple.getRippleId());
+			
 		} catch (Exception ex) {
 			System.out.println("deleteRipple() 에러 : " + ex);
 		} finally {
@@ -124,6 +131,7 @@ public class RippleDAO {
 				throw new RuntimeException(ex.getMessage());
 			}
 		}
+		return flag != 0;
 		
 	} // deleteRipple 댓글 삭제 끝
 	
