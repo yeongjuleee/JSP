@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import="bookstore.dao.CartDAO" %>
+<%@ include file="../inc/dbconn.jsp" %>
+
+<%--기존 것 jstl 사용 방법 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%
@@ -28,3 +32,28 @@
 </c:forEach>
 
 <c:redirect url="loginMember.jsp?error=1" />
+--%>
+
+<%
+	request.setCharacterEncoding("UTF-8");
+	
+	String id = request.getParameter("id");
+	String passwd = request.getParameter("password");
+	String sql = "SELECT * FROM member WHERE id = ? AND password = ?";
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setString(1, id);
+	pstmt.setString(2, passwd);
+	rs = pstmt.executeQuery();
+	
+	if(rs.next()) {
+		session.setAttribute("sessionId", id);
+		session.setAttribute("sessionName", rs.getString("name"));
+		
+		CartDAO cartDAO = new CartDAO();
+		cartDAO.updateCartBylogin(session);
+		response.sendRedirect("resultMember.jsp?msg=2");
+	}
+	else {
+		response.sendRedirect("loginMember.jsp?error=1");
+	}
+%>

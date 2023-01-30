@@ -25,7 +25,7 @@ public class CartDAO {
 	
 	void connect() {
 		try {
-			connection = DBConnection.getConnetion();
+			connection = DBConnection.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

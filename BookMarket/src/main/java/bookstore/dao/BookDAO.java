@@ -13,7 +13,7 @@ public class BookDAO {
 	// DB 연결 메소드 
 	void connect() {
 		try {
-			connection = DBConnection.getConnetion();
+			connection = DBConnection.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

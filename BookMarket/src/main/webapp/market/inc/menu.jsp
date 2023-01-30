@@ -27,7 +27,7 @@
 			</c:choose>
 			<li class="nav-item"><a class="nav-link" href="../shop_db/bookstore.jsp">도서 목록</a></li>
 			<li class="nav-item"><a class="nav-link" href="../shop_db/cart.jsp">장바구니</a></li>
-			<%--<li class="nav-item"><a class="nav-link" href="../board/BoardListAction.do?pageNum=">상품 삭제</a></li> --%>
+			<li class="nav-item"><a class="nav-link" href="<c:url value="../board/BoardListAction.do?pageNum=1"/>">게시판</a></li>
 		</ul>
 	</div>
 </div>
